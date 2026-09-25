@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Souway — Python-разработчик, OSINT-специалист</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0d1117;
+    color: #c9d1d9;
+    line-height: 1.6;
+    padding: 20px;
+  }
+  .container { max-width: 800px; margin: 0 auto; padding: 20px 0; }
+  header { text-align: center; padding: 40px 0; border-bottom: 1px solid #21262d; }
+  h1 { font-size: 2.2em; color: #58a6ff; margin-bottom: 10px; }
+  .tagline { color: #8b949e; font-size: 1.1em; }
+  section { padding: 40px 0; border-bottom: 1px solid #21262d; }
+  h2 { color: #58a6ff; font-size: 1.5em; margin-bottom: 20px; }
+  p { margin-bottom: 15px; }
+  .projects { display: grid; gap: 20px; }
+  .project {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 20px;
+    transition: border-color 0.2s;
+  }
+  .project:hover { border-color: #58a6ff; }
+  .project h3 { color: #58a6ff; margin-bottom: 10px; font-size: 1.2em; }
+  .project p { color: #8b949e; font-size: 0.95em; margin-bottom: 15px; }
+  .project a {
+    color: #58a6ff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9em;
+  }
+  .project a:hover { text-decoration: underline; }
+  .btn {
+    display: inline-block;
+    background: #238636;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: background 0.2s;
+  }
+  .btn:hover { background: #2ea043; }
+  .contacts { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px; }
+  .contacts a {
+    color: #58a6ff;
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    transition: border-color 0.2s;
+  }
+  .contacts a:hover { border-color: #58a6ff; }
+  footer { text-align: center; padding: 30px 0; color: #8b949e; font-size: 0.9em; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>Souway</h1>
+  <p class="tagline">Python-разработчик. OSINT-специалист.</p>
+</header>
+
+<section id="about">
+  <h2>О себе</h2>
+  <p>OSINT-специалист. Работаю только с открытыми источниками и легальными методами сбора информации. Разрабатываю Python-инструменты: чекеры, парсеры, Telegram-боты и сайты. Веду Telegram-канал Python Wave | OSINT, где делюсь гайдами и инструментами.</p>
+</section>
+
+<section id="projects">
+  <h2>Проекты</h2>
+  <div class="projects">
+    <div class="project">
+      <h3>🔍 Username Checker</h3>
+      <p>Асинхронный OSINT-инструмент для проверки юзернеймов по 100+ платформам. Сохраняет отчёт в JSON, обрабатывает блокировки и ошибки.</p>
+      <a href="https://github.com/souway1/scriptforge/tree/main/username-checker" target="_blank">Смотреть на GitHub →</a>
+    </div>
+    <div class="project">
+      <h3>📄 Parser (в развитии)</h3>
+      <p>Парсер веб-страниц на Python: извлекает заголовок и ссылки. В планах — поддержка пагинации и сохранение данных.</p>
+      <a href="https://github.com/souway1/scriptforge/tree/main/parser" target="_blank">Смотреть на GitHub →</a>
+    </div>
+    <div class="project">
+      <h3>🐍 SnakeEye (в разработке)</h3>
+      <p>Telegram-бот для OSINT-проверок: пробив по номеру, нику и IP. Сейчас в активной разработке. Архитектура готова, веду работу над функционалом.</p>
+      <a href="https://t.me/pythonwave" target="_blank">Следить в канале →</a>
+    </div>
+    <div class="project">
+      <h3>📢 Python Wave | OSINT</h3>
+      <p>Telegram-канал о Python и OSINT. Публикую гайды, разборы инструментов и новости из мира информационной безопасности.</p>
+      <a href="https://t.me/pythonwave" target="_blank">Перейти в канал →</a>
+    </div>
+  </div>
+</section>
+
+<section id="reviews">
+  <h2>Отзывы</h2>
+  <a href="https://t.me/souway_reviews" class="btn" target="_blank">Читать отзывы</a>
+</section>
+
+<section id="contacts">
+  <h2>Контакты</h2>
+  <p>Связаться со мной можно напрямую:</p>
+  <div class="contacts">
+    <a href="https://t.me/s0uway" target="_blank">Telegram</a>
+    <a href="mailto:souwway@gmail.com">Email</a>
+    <a href="https://github.com/souway1" target="_blank">GitHub</a>
+  </div>
+</section>
+
+<footer>
+  © 2026 Souway
+</footer>
+
+</div>
+</body>
+</html>
