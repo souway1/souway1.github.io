@@ -85,13 +85,12 @@
   .comet::after {
     content: "";
     position: absolute;
-    top: 50%; left: 0;
+    top: 50%; right: 0;
     width: 80px;
     height: 1px;
-    background: linear-gradient(90deg, rgba(255,255,255,0.8), transparent);
-    transform: translateY(-50%);
-  }
-  .comet-1 {
+    background: linear-gradient(270deg, rgba(255,255,255,0.8), transparent);
+    transform: translateY(-50%) translateX(100%);
+}
     top: 10%;
     left: -100px;
     animation: shoot 12s linear infinite;
