@@ -6,6 +6,7 @@
 <title>Souway — Python-разработчик. OSINT: инструменты и исследования</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: #050508;
@@ -14,6 +15,7 @@
     padding: 20px;
     min-height: 100vh;
     position: relative;
+    overflow-x: hidden;
   }
 
   /* Слой звёзд */
@@ -43,7 +45,6 @@
     animation: twinkle 6s ease-in-out infinite alternate;
   }
 
-  /* Второй слой — более мелкие и тусклые звёзды */
   body::after {
     content: "";
     position: fixed;
@@ -70,7 +71,44 @@
     100% { opacity: 0.9; }
   }
 
-  /* Фиолетовое свечение под звёздами */
+  /* Кометы */
+  .comet {
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 50%;
+    z-index: 0;
+    pointer-events: none;
+    box-shadow: 0 0 6px 2px rgba(255,255,255,0.8);
+  }
+  .comet::after {
+    content: "";
+    position: absolute;
+    top: 50%; left: 0;
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.8), transparent);
+    transform: translateY(-50%);
+  }
+  .comet-1 {
+    top: 10%;
+    left: -100px;
+    animation: shoot 12s linear infinite;
+  }
+  .comet-2 {
+    top: 40%;
+    left: -100px;
+    animation: shoot 18s linear infinite;
+    animation-delay: 6s;
+  }
+  @keyframes shoot {
+    0%   { transform: translate(0, 0) rotate(20deg); opacity: 0; }
+    5%   { opacity: 1; }
+    95%  { opacity: 1; }
+    100% { transform: translate(120vw, 40vh) rotate(20deg); opacity: 0; }
+  }
+
   .glow {
     position: fixed;
     top: 0; left: 0;
@@ -89,7 +127,7 @@
     position: relative;
     z-index: 1;
   }
-  header { text-align: center; padding: 50px 0 40px; border-bottom: 1px solid #1a1a24; }
+  header { text-align: center; padding: 40px 0 20px; }
   h1 {
     font-size: 2.4em;
     color: #a78bfa;
@@ -98,6 +136,31 @@
     letter-spacing: 1px;
   }
   .tagline { color: #8b8b9e; font-size: 1.1em; }
+
+  /* Навигация */
+  .nav {
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #1a1a24;
+    margin-bottom: 20px;
+    font-size: 0.95em;
+  }
+  .nav a {
+    color: #a78bfa;
+    text-decoration: none;
+    transition: color 0.2s, text-shadow 0.2s;
+    padding: 0 4px;
+  }
+  .nav a:hover {
+    color: #c4b5fd;
+    text-shadow: 0 0 10px rgba(167, 139, 250, 0.6);
+    text-decoration: underline;
+  }
+  .nav span {
+    color: #3a3a4a;
+    padding: 0 6px;
+  }
+
   section { padding: 40px 0; border-bottom: 1px solid #1a1a24; }
   h2 {
     color: #a78bfa;
@@ -137,9 +200,11 @@
     transition: color 0.2s;
   }
   .project a:hover { color: #c4b5fd; text-decoration: underline; }
+
+  /* Кнопки — зелёные */
   .btn {
     display: inline-block;
-    background: linear-gradient(135deg, #7c3aed, #a78bfa);
+    background: linear-gradient(135deg, #16a34a, #22c55e);
     color: #fff;
     padding: 12px 26px;
     border-radius: 8px;
@@ -147,12 +212,13 @@
     font-weight: 600;
     margin-top: 10px;
     transition: box-shadow 0.3s, transform 0.2s;
-    box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
   }
   .btn:hover {
-    box-shadow: 0 0 30px rgba(124, 58, 237, 0.6);
+    box-shadow: 0 0 30px rgba(34, 197, 94, 0.6);
     transform: translateY(-2px);
   }
+
   .contacts { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px; }
   .contacts a {
     color: #a78bfa;
@@ -167,10 +233,14 @@
     box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
   }
   footer { text-align: center; padding: 30px 0; color: #6b6b7e; font-size: 0.9em; }
-</style>  
+</style>
 </head>
 <body>
+
+<div class="comet comet-1"></div>
+<div class="comet comet-2"></div>
 <div class="glow"></div>
+
 <div class="container">
 
 <header>
@@ -178,8 +248,16 @@
   <p class="tagline">Python-разработчик. OSINT: инструменты и исследования.</p>
 </header>
 
+<nav class="nav">
+  <a href="#about">Обо мне</a><span>·</span>
+  <a href="#projects">Проекты</a><span>·</span>
+  <a href="#services">Услуги</a><span>·</span>
+  <a href="#reviews">Отзывы</a><span>·</span>
+  <a href="#contacts">Контакты</a>
+</nav>
+
 <section id="about">
-  <h2>О себе</h2>
+  <h2>Обо мне</h2>
   <p>Python-разработчик. Разрабатываю инструменты для OSINT и провожу исследования по открытым источникам. Работаю только легальными методами. Веду Telegram-канал Python Wave | OSINT, где делюсь гайдами и инструментами.</p>
 </section>
 
@@ -214,12 +292,16 @@
 
 <section id="services">
   <h2>Услуги</h2>
-  <p><strong>Разработка:</strong></p>
+  <p><strong>Разработка на Python:</strong></p>
   <ul>
     <li>Парсеры сайтов и сбор данных</li>
     <li>Telegram-боты (автоматизация, OSINT, утилиты)</li>
     <li>Чекеры и скрипты для проверки информации</li>
-    <li>Сайты-визитки и портфолио</li>
+    <li>API и бэкенд на FastAPI/Flask</li>
+  </ul>
+  <p><strong>Сайты-визитки:</strong></p>
+  <ul>
+    <li>Простые сайты на HTML/CSS (портфолио, визитки)</li>
   </ul>
   <p><strong>OSINT:</strong></p>
   <ul>
