@@ -9,103 +9,13 @@
   html { scroll-behavior: smooth; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #050508;
-    color: #c9d1d9;
+    background: #0a0405;
+    color: #d1c9c9;
     line-height: 1.6;
     padding: 20px;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
-  }
-
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 0;
-    pointer-events: none;
-    background-image:
-      radial-gradient(1px 1px at 20px 30px, #ffffff, transparent),
-      radial-gradient(1px 1px at 40px 70px, #d0d0ff, transparent),
-      radial-gradient(1px 1px at 90px 40px, #ffffff, transparent),
-      radial-gradient(1px 1px at 130px 80px, #b0b0ff, transparent),
-      radial-gradient(1.5px 1.5px at 160px 120px, #ffffff, transparent),
-      radial-gradient(1px 1px at 200px 50px, #ffffff, transparent),
-      radial-gradient(1px 1px at 250px 160px, #d0d0ff, transparent),
-      radial-gradient(1.5px 1.5px at 300px 90px, #ffffff, transparent),
-      radial-gradient(1px 1px at 350px 180px, #b0b0ff, transparent),
-      radial-gradient(1px 1px at 400px 30px, #ffffff, transparent),
-      radial-gradient(1px 1px at 450px 140px, #ffffff, transparent),
-      radial-gradient(1.5px 1.5px at 500px 200px, #d0d0ff, transparent);
-    background-size: 550px 250px;
-    background-repeat: repeat;
-    opacity: 0.7;
-    animation: twinkle 6s ease-in-out infinite alternate;
-  }
-
-  body::after {
-    content: "";
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 0;
-    pointer-events: none;
-    background-image:
-      radial-gradient(1px 1px at 10px 10px, #ffffff, transparent),
-      radial-gradient(1px 1px at 70px 90px, #ffffff, transparent),
-      radial-gradient(1px 1px at 150px 30px, #d0d0ff, transparent),
-      radial-gradient(1px 1px at 220px 130px, #ffffff, transparent),
-      radial-gradient(1px 1px at 290px 60px, #ffffff, transparent),
-      radial-gradient(1px 1px at 370px 170px, #b0b0ff, transparent),
-      radial-gradient(1px 1px at 440px 20px, #ffffff, transparent);
-    background-size: 480px 220px;
-    background-repeat: repeat;
-    opacity: 0.4;
-    animation: twinkle 9s ease-in-out infinite alternate-reverse;
-  }
-
-  @keyframes twinkle {
-    0%   { opacity: 0.4; }
-    100% { opacity: 0.9; }
-  }
-
-  .comet {
-    position: fixed;
-    width: 3px;
-    height: 3px;
-    background: #ffffff;
-    border-radius: 50%;
-    z-index: 0;
-    pointer-events: none;
-    box-shadow: 0 0 8px 2px rgba(255,255,255,0.9);
-  }
-  .comet::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 100%;
-    width: 70px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8));
-    transform: translateY(-50%);
-  }
-  .comet-1 {
-    top: 10%;
-    left: -100px;
-    animation: shoot 14s linear infinite;
-  }
-  .comet-2 {
-    top: 45%;
-    left: -100px;
-    animation: shoot 20s linear infinite;
-    animation-delay: 8s;
-  }
-  @keyframes shoot {
-    0%   { transform: translate(0, 0) rotate(15deg); opacity: 0; }
-    10%  { opacity: 1; }
-    90%  { opacity: 1; }
-    100% { transform: translate(120vw, 30vh) rotate(15deg); opacity: 0; }
   }
 
   .glow {
@@ -115,8 +25,8 @@
     z-index: 0;
     pointer-events: none;
     background-image:
-      radial-gradient(circle at 20% 10%, rgba(124, 58, 237, 0.12), transparent 40%),
-      radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.08), transparent 40%);
+      radial-gradient(circle at 50% 0%, rgba(220, 38, 38, 0.15), transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(220, 38, 38, 0.08), transparent 40%);
   }
 
   .container {
@@ -126,82 +36,130 @@
     position: relative;
     z-index: 1;
   }
-  header { text-align: center; padding: 40px 0 20px; }
+
+  header {
+    position: relative;
+    text-align: center;
+    padding: 60px 0 40px;
+    overflow: hidden;
+  }
+
+  .silhouette {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 220px;
+    height: 220px;
+    z-index: -1;
+    opacity: 0.15;
+    pointer-events: none;
+  }
+
+  .silhouette::before {
+    content: "";
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 80px;
+    background: #ef4444;
+    border-radius: 50% 50% 45% 45%;
+    filter: blur(8px);
+  }
+
+  .silhouette::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 160px;
+    height: 110px;
+    background: #ef4444;
+    border-radius: 50% 50% 0 0;
+    filter: blur(10px);
+  }
+
   h1 {
     font-size: 2.4em;
-    color: #a78bfa;
+    color: #ef4444;
     margin-bottom: 10px;
-    text-shadow: 0 0 20px rgba(124, 58, 237, 0.4);
+    text-shadow: 0 0 25px rgba(220, 38, 38, 0.6);
     letter-spacing: 1px;
+    position: relative;
   }
-  .tagline { color: #8b8b9e; font-size: 1.1em; }
+  .tagline { color: #9e8b8b; font-size: 1.1em; position: relative; }
 
   .nav {
     text-align: center;
     padding: 20px 0;
-    border-bottom: 1px solid #1a1a24;
+    border-bottom: 1px solid #1f0d0d;
     margin-bottom: 20px;
     font-size: 0.95em;
   }
   .nav a {
-    color: #a78bfa;
+    color: #ef4444;
     text-decoration: none;
     transition: color 0.2s, text-shadow 0.2s;
     padding: 0 4px;
   }
   .nav a:hover {
-    color: #c4b5fd;
-    text-shadow: 0 0 10px rgba(167, 139, 250, 0.6);
+    color: #fca5a5;
+    text-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
     text-decoration: underline;
   }
   .nav span {
-    color: #3a3a4a;
+    color: #3a2020;
     padding: 0 6px;
   }
 
-  section { padding: 40px 0; border-bottom: 1px solid #1a1a24; }
+  section { padding: 40px 0; border-bottom: 1px solid #1f0d0d; }
   h2 {
-    color: #a78bfa;
+    color: #ef4444;
     font-size: 1.5em;
     margin-bottom: 20px;
     letter-spacing: 0.5px;
   }
   p { margin-bottom: 15px; }
   ul { margin-left: 20px; margin-bottom: 15px; }
+  ol { margin-left: 20px; margin-bottom: 15px; }
   li { margin-bottom: 8px; }
+
   .projects { display: grid; gap: 20px; }
   .project {
-    background: #0d0d14;
-    border: 1px solid #1f1f2e;
+    background: #120809;
+    border: 1px solid #241012;
     border-radius: 10px;
     padding: 22px;
     transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
   }
   .project:hover {
-    border-color: #7c3aed;
-    box-shadow: 0 0 25px rgba(124, 58, 237, 0.2);
+    border-color: #dc2626;
+    box-shadow: 0 0 25px rgba(220, 38, 38, 0.25);
     transform: translateY(-2px);
   }
-  .project h3 { color: #a78bfa; margin-bottom: 10px; font-size: 1.2em; }
-  .project p { color: #8b8b9e; font-size: 0.95em; margin-bottom: 15px; }
+  .project h3 { color: #ef4444; margin-bottom: 10px; font-size: 1.2em; }
+  .project p { color: #9e8b8b; font-size: 0.95em; margin-bottom: 15px; }
   .project img {
     width: 100%;
     border-radius: 8px;
     margin: 10px 0;
-    border: 1px solid #1f1f2e;
+    border: 1px solid #241012;
   }
   .project a {
-    color: #a78bfa;
+    color: #ef4444;
     text-decoration: none;
     font-weight: 500;
     font-size: 0.9em;
     transition: color 0.2s;
   }
-  .project a:hover { color: #c4b5fd; text-decoration: underline; }
+  .project a:hover { color: #fca5a5; text-decoration: underline; }
 
   .btn {
     display: inline-block;
-    background: linear-gradient(135deg, #16a34a, #22c55e);
+    background: linear-gradient(135deg, #b91c1c, #ef4444);
     color: #fff;
     padding: 12px 26px;
     border-radius: 8px;
@@ -209,53 +167,85 @@
     font-weight: 600;
     margin-top: 10px;
     transition: box-shadow 0.3s, transform 0.2s;
-    box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+    box-shadow: 0 0 20px rgba(220, 38, 38, 0.35);
   }
   .btn:hover {
-    box-shadow: 0 0 30px rgba(34, 197, 94, 0.6);
+    box-shadow: 0 0 30px rgba(220, 38, 38, 0.7);
     transform: translateY(-2px);
   }
 
   .contacts { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px; }
   .contacts a {
-    color: #a78bfa;
+    color: #ef4444;
     text-decoration: none;
     padding: 8px 18px;
-    border: 1px solid #1f1f2e;
+    border: 1px solid #241012;
     border-radius: 8px;
     transition: border-color 0.3s, box-shadow 0.3s;
   }
   .contacts a:hover {
-    border-color: #7c3aed;
-    box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+    border-color: #dc2626;
+    box-shadow: 0 0 15px rgba(220, 38, 38, 0.35);
   }
-  footer { text-align: center; padding: 30px 0; color: #6b6b7e; font-size: 0.9em; }
+  footer { text-align: center; padding: 30px 0; color: #6b4a4a; font-size: 0.9em; }
 </style>
 </head>
 <body>
 
-<div class="comet comet-1"></div>
-<div class="comet comet-2"></div>
 <div class="glow"></div>
 
 <div class="container">
 
 <header>
+  <div class="silhouette"></div>
   <h1>Souway</h1>
   <p class="tagline">Python-разработчик. OSINT: инструменты и исследования.</p>
 </header>
 
 <nav class="nav">
   <a href="#about">Обо мне</a><span>·</span>
-  <a href="#projects">Проекты</a><span>·</span>
   <a href="#services">Услуги</a><span>·</span>
+  <a href="#projects">Проекты</a><span>·</span>
   <a href="#reviews">Отзывы</a><span>·</span>
   <a href="#contacts">Контакты</a>
 </nav>
 
 <section id="about">
   <h2>Обо мне</h2>
-  <p>Python-разработчик. Разрабатываю инструменты для OSINT и провожу исследования по открытым источникам. Работаю только легальными методами. Веду Telegram-канал Python Wave | OSINT, где делюсь гайдами и инструментами.</p>
+  <p>Python-разработчик. Делаю инструменты для OSINT и провожу исследования по открытым источникам. Работаю только легальными методами.</p>
+</section>
+
+<section id="services">
+  <h2>Услуги</h2>
+  <p><strong>Сайты-визитки:</strong></p>
+  <ul>
+    <li>простой дизайн на HTML/CSS</li>
+    <li>адаптив под телефон</li>
+    <li>форма связи</li>
+  </ul>
+  <p><strong>Разработка на Python:</strong></p>
+  <ul>
+    <li>парсеры и сбор данных</li>
+    <li>Telegram-боты</li>
+    <li>чекеры и скрипты</li>
+  </ul>
+  <p><strong>OSINT:</strong></p>
+  <ul>
+    <li>поиск по открытым источникам</li>
+    <li>проверка данных</li>
+  </ul>
+  <p>Цена договорная. Первым заказчикам — скидка.</p>
+</section>
+
+<section id="how">
+  <h2>Как я работаю</h2>
+  <ol>
+    <li>Вы описываете задачу</li>
+    <li>Я называю цену и сроки</li>
+    <li>Делаю, показываю, вносим правки</li>
+    <li>Отдаю готовый результат</li>
+  </ol>
+  <a href="https://t.me/souvvay" class="btn" target="_blank">Обсудить задачу</a>
 </section>
 
 <section id="projects">
@@ -263,51 +253,28 @@
   <div class="projects">
     <div class="project">
       <h3>🔍 Username Checker</h3>
-      <p>Асинхронный OSINT-инструмент для проверки юзернеймов по 100+ платформам. Сохраняет отчёт в JSON, обрабатывает блокировки и ошибки.</p>
+      <p>Чекер никнеймов по 100+ платформам. Сохраняет отчёт в JSON.</p>
       <img src="Screenshot_20260926-203405.jpg" alt="Username Checker">
       <a href="https://github.com/souway1/scriptforge/tree/main/username-checker" target="_blank">Смотреть на GitHub →</a>
     </div>
     <div class="project">
       <h3>📱 NumHunter</h3>
-      <p>OSINT-инструмент для анализа номеров телефонов. Проверка, валидация, batch-обработка списков, экспорт отчётов в JSON.</p>
+      <p>Анализ номеров: страна, регион, оператор, тип линии.</p>
       <img src="Screenshot_20260926-202505.jpg" alt="NumHunter">
       <a href="https://github.com/souway1/scriptforge/tree/main/numhunter" target="_blank">Смотреть на GitHub →</a>
     </div>
     <div class="project">
-      <h3>🐍 SnakeEye (в разработке)</h3>
-      <p>Telegram-бот для OSINT-проверок: пробив по номеру, нику и IP. Сейчас в активной разработке. Архитектура готова, веду работу над функционалом.</p>
+      <h3>🐍 SnakeEye</h3>
+      <p>Telegram-бот для OSINT-проверок. В разработке.</p>
       <img src="Screenshot_20260926-203751.jpg" alt="SnakeEye">
       <a href="https://t.me/pythonwave" target="_blank">Следить в канале →</a>
     </div>
     <div class="project">
       <h3>📢 Python Wave | OSINT</h3>
-      <p>Telegram-канал о Python и OSINT. Публикую гайды, разборы инструментов и новости из мира информационной безопасности.</p>
+      <p>Канал про Python, OSINT и инструменты.</p>
       <a href="https://t.me/pythonwave" target="_blank">Перейти в канал →</a>
     </div>
   </div>
-</section>
-
-<section id="services">
-  <h2>Услуги</h2>
-  <p><strong>Разработка на Python:</strong></p>
-  <ul>
-    <li>Парсеры сайтов и сбор данных</li>
-    <li>Telegram-боты (автоматизация, OSINT, утилиты)</li>
-    <li>Чекеры и скрипты для проверки информации</li>
-    <li>API и бэкенд на FastAPI/Flask</li>
-  </ul>
-  <p><strong>Сайты-визитки:</strong></p>
-  <ul>
-    <li>Простые сайты на HTML/CSS (портфолио, визитки)</li>
-  </ul>
-  <p><strong>OSINT:</strong></p>
-  <ul>
-    <li>Поиск информации по открытым источникам</li>
-    <li>Проверка данных, предоставленных заказчиком</li>
-    <li>Работаю только с легальными методами и открытыми данными</li>
-  </ul>
-  <p>Стоимость рассчитывается индивидуально — зависит от сложности задачи и сроков.</p>
-  <a href="https://t.me/souvvay" class="btn" target="_blank">Обсудить задачу</a>
 </section>
 
 <section id="reviews">
@@ -331,4 +298,4 @@
 
 </div>
 </body>
-       </html>
+ </html>
