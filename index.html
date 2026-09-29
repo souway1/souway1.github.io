@@ -49,37 +49,18 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 220px;
-    height: 220px;
+    width: 200px;
+    height: 200px;
     z-index: -1;
-    opacity: 0.15;
+    opacity: 0.3;
     pointer-events: none;
+    filter: drop-shadow(0 0 25px rgba(239, 68, 68, 0.7));
+    animation: snakeFloat 6s ease-in-out infinite;
   }
 
-  .silhouette::before {
-    content: "";
-    position: absolute;
-    top: 15%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 70px;
-    height: 80px;
-    background: #ef4444;
-    border-radius: 50% 50% 45% 45%;
-    filter: blur(8px);
-  }
-
-  .silhouette::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 160px;
-    height: 110px;
-    background: #ef4444;
-    border-radius: 50% 50% 0 0;
-    filter: blur(10px);
+  @keyframes snakeFloat {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50%      { transform: translate(-50%, -50%) scale(1.05); }
   }
 
   h1 {
@@ -197,7 +178,33 @@
 <div class="container">
 
 <header>
-  <div class="silhouette"></div>
+  <svg class="silhouette" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="snakeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ef4444"/>
+        <stop offset="100%" stop-color="#7f1d1d"/>
+      </linearGradient>
+    </defs>
+    <path d="M 100 20
+             C 140 20, 170 50, 170 90
+             C 170 130, 140 160, 100 160
+             C 60 160, 30 130, 30 90
+             C 30 60, 50 40, 75 35"
+          fill="none"
+          stroke="url(#snakeGrad)"
+          stroke-width="14"
+          stroke-linecap="round"/>
+    <path d="M 75 35
+             C 90 32, 100 42, 95 55
+             C 90 68, 75 68, 70 58
+             C 65 48, 75 40, 85 45"
+          fill="none"
+          stroke="url(#snakeGrad)"
+          stroke-width="14"
+          stroke-linecap="round"/>
+    <circle cx="85" cy="45" r="10" fill="#ef4444"/>
+    <circle cx="82" cy="43" r="2" fill="#0a0405"/>
+  </svg>
   <h1>Souway</h1>
   <p class="tagline">Python-разработчик. OSINT: инструменты и исследования.</p>
 </header>
@@ -298,4 +305,4 @@
 
 </div>
 </body>
- </html>
+</html>
