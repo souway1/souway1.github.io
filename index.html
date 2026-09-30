@@ -9,15 +9,16 @@
   html { scroll-behavior: smooth; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #0a0405;
-    color: #d1c9c9;
-    line-height: 1.6;
+    background: #0a0303;
+    color: #d8cece;
+    line-height: 1.7;
     padding: 20px;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
   }
 
+  /* Красное свечение сверху */
   .glow {
     position: fixed;
     top: 0; left: 0;
@@ -25,8 +26,33 @@
     z-index: 0;
     pointer-events: none;
     background-image:
-      radial-gradient(circle at 50% 0%, rgba(220, 38, 38, 0.15), transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(220, 38, 38, 0.08), transparent 40%);
+      radial-gradient(circle at 50% 0%, rgba(180, 20, 20, 0.18), transparent 55%),
+      radial-gradient(circle at 90% 90%, rgba(180, 20, 20, 0.08), transparent 45%);
+  }
+
+  /* Падающие лепестки */
+  .petal {
+    position: fixed;
+    width: 8px;
+    height: 14px;
+    background: radial-gradient(circle at 30% 30%, #dc2626, #7f1d1d);
+    border-radius: 50% 0 50% 0;
+    opacity: 0.5;
+    z-index: 0;
+    pointer-events: none;
+    animation: fall linear infinite;
+  }
+  .petal:nth-child(1) { left: 10%; animation-duration: 12s; animation-delay: 0s; }
+  .petal:nth-child(2) { left: 30%; animation-duration: 16s; animation-delay: 3s; }
+  .petal:nth-child(3) { left: 50%; animation-duration: 14s; animation-delay: 6s; }
+  .petal:nth-child(4) { left: 70%; animation-duration: 18s; animation-delay: 2s; }
+  .petal:nth-child(5) { left: 88%; animation-duration: 15s; animation-delay: 8s; }
+
+  @keyframes fall {
+    0%   { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.6; }
+    90%  { opacity: 0.6; }
+    100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
   }
 
   .container {
@@ -38,99 +64,84 @@
   }
 
   header {
-    position: relative;
     text-align: center;
-    padding: 60px 0 40px;
-    overflow: hidden;
-  }
-
-  .silhouette {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 200px;
-    height: 200px;
-    z-index: -1;
-    opacity: 0.3;
-    pointer-events: none;
-    filter: drop-shadow(0 0 25px rgba(239, 68, 68, 0.7));
-    animation: snakeFloat 6s ease-in-out infinite;
-  }
-
-  @keyframes snakeFloat {
-    0%, 100% { transform: translate(-50%, -50%) scale(1); }
-    50%      { transform: translate(-50%, -50%) scale(1.05); }
+    padding: 70px 0 40px;
   }
 
   h1 {
-    font-size: 2.4em;
-    color: #ef4444;
+    font-size: 2.5em;
+    color: #e5e5e5;
     margin-bottom: 10px;
-    text-shadow: 0 0 25px rgba(220, 38, 38, 0.6);
-    letter-spacing: 1px;
-    position: relative;
+    font-weight: 300;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    text-shadow: 0 0 30px rgba(180, 20, 20, 0.5);
   }
-  .tagline { color: #9e8b8b; font-size: 1.1em; position: relative; }
+  .tagline {
+    color: #8a7a7a;
+    font-size: 1em;
+    letter-spacing: 1px;
+    font-weight: 300;
+  }
+  .tagline .accent { color: #dc2626; }
 
   .nav {
     text-align: center;
     padding: 20px 0;
-    border-bottom: 1px solid #1f0d0d;
+    border-bottom: 1px solid #1a0808;
     margin-bottom: 20px;
-    font-size: 0.95em;
+    font-size: 0.9em;
+    letter-spacing: 0.5px;
   }
   .nav a {
-    color: #ef4444;
+    color: #a8a0a0;
     text-decoration: none;
-    transition: color 0.2s, text-shadow 0.2s;
+    transition: color 0.3s;
     padding: 0 4px;
   }
   .nav a:hover {
-    color: #fca5a5;
-    text-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
-    text-decoration: underline;
+    color: #dc2626;
+    text-shadow: 0 0 12px rgba(220, 38, 38, 0.7);
   }
-  .nav span {
-    color: #3a2020;
-    padding: 0 6px;
-  }
+  .nav span { color: #2a1515; padding: 0 6px; }
 
-  section { padding: 40px 0; border-bottom: 1px solid #1f0d0d; }
+  section { padding: 40px 0; border-bottom: 1px solid #1a0808; }
   h2 {
-    color: #ef4444;
-    font-size: 1.5em;
+    color: #dc2626;
+    font-size: 1.3em;
     margin-bottom: 20px;
-    letter-spacing: 0.5px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
   }
-  p { margin-bottom: 15px; }
-  ul { margin-left: 20px; margin-bottom: 15px; }
-  ol { margin-left: 20px; margin-bottom: 15px; }
-  li { margin-bottom: 8px; }
+  p { margin-bottom: 15px; color: #b8aeae; }
+  ul, ol { margin-left: 20px; margin-bottom: 15px; }
+  li { margin-bottom: 8px; color: #b8aeae; }
+  strong { color: #d8cece; font-weight: 500; }
 
   .projects { display: grid; gap: 20px; }
   .project {
-    background: #120809;
-    border: 1px solid #241012;
+    background: #0f0506;
+    border: 1px solid #1e0d0d;
     border-radius: 10px;
     padding: 22px;
     transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
   }
   .project:hover {
     border-color: #dc2626;
-    box-shadow: 0 0 25px rgba(220, 38, 38, 0.25);
+    box-shadow: 0 0 25px rgba(180, 20, 20, 0.3);
     transform: translateY(-2px);
   }
-  .project h3 { color: #ef4444; margin-bottom: 10px; font-size: 1.2em; }
-  .project p { color: #9e8b8b; font-size: 0.95em; margin-bottom: 15px; }
+  .project h3 { color: #e5e5e5; margin-bottom: 10px; font-size: 1.1em; font-weight: 500; }
+  .project p { color: #8a7a7a; font-size: 0.95em; margin-bottom: 15px; }
   .project img {
     width: 100%;
     border-radius: 8px;
     margin: 10px 0;
-    border: 1px solid #241012;
+    border: 1px solid #1e0d0d;
   }
   .project a {
-    color: #ef4444;
+    color: #dc2626;
     text-decoration: none;
     font-weight: 500;
     font-size: 0.9em;
@@ -140,73 +151,63 @@
 
   .btn {
     display: inline-block;
-    background: linear-gradient(135deg, #b91c1c, #ef4444);
-    color: #fff;
-    padding: 12px 26px;
-    border-radius: 8px;
+    background: transparent;
+    color: #dc2626;
+    padding: 12px 28px;
+    border: 1px solid #dc2626;
+    border-radius: 6px;
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 500;
     margin-top: 10px;
-    transition: box-shadow 0.3s, transform 0.2s;
-    box-shadow: 0 0 20px rgba(220, 38, 38, 0.35);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 0.85em;
+    transition: all 0.3s;
   }
   .btn:hover {
-    box-shadow: 0 0 30px rgba(220, 38, 38, 0.7);
-    transform: translateY(-2px);
+    background: #dc2626;
+    color: #0a0303;
+    box-shadow: 0 0 25px rgba(220, 38, 38, 0.6);
   }
 
   .contacts { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px; }
   .contacts a {
-    color: #ef4444;
+    color: #a8a0a0;
     text-decoration: none;
     padding: 8px 18px;
-    border: 1px solid #241012;
-    border-radius: 8px;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    border: 1px solid #1e0d0d;
+    border-radius: 6px;
+    transition: all 0.3s;
+    font-size: 0.9em;
   }
   .contacts a:hover {
     border-color: #dc2626;
-    box-shadow: 0 0 15px rgba(220, 38, 38, 0.35);
+    color: #dc2626;
+    box-shadow: 0 0 15px rgba(180, 20, 20, 0.35);
   }
-  footer { text-align: center; padding: 30px 0; color: #6b4a4a; font-size: 0.9em; }
+  footer {
+    text-align: center;
+    padding: 30px 0;
+    color: #5a3a3a;
+    font-size: 0.85em;
+    letter-spacing: 2px;
+  }
 </style>
 </head>
 <body>
 
 <div class="glow"></div>
+<div class="petal"></div>
+<div class="petal"></div>
+<div class="petal"></div>
+<div class="petal"></div>
+<div class="petal"></div>
 
 <div class="container">
 
 <header>
-  <svg class="silhouette" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="snakeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#ef4444"/>
-        <stop offset="100%" stop-color="#7f1d1d"/>
-      </linearGradient>
-    </defs>
-    <path d="M 100 20
-             C 140 20, 170 50, 170 90
-             C 170 130, 140 160, 100 160
-             C 60 160, 30 130, 30 90
-             C 30 60, 50 40, 75 35"
-          fill="none"
-          stroke="url(#snakeGrad)"
-          stroke-width="14"
-          stroke-linecap="round"/>
-    <path d="M 75 35
-             C 90 32, 100 42, 95 55
-             C 90 68, 75 68, 70 58
-             C 65 48, 75 40, 85 45"
-          fill="none"
-          stroke="url(#snakeGrad)"
-          stroke-width="14"
-          stroke-linecap="round"/>
-    <circle cx="85" cy="45" r="10" fill="#ef4444"/>
-    <circle cx="82" cy="43" r="2" fill="#0a0405"/>
-  </svg>
   <h1>Souway</h1>
-  <p class="tagline">Python-разработчик. OSINT: инструменты и исследования.</p>
+  <p class="tagline">Python-разработчик. <span class="accent">OSINT</span>: инструменты и исследования.</p>
 </header>
 
 <nav class="nav">
@@ -300,7 +301,7 @@
 </section>
 
 <footer>
-  © 2026 Souway
+  © 2026 SOUWAY
 </footer>
 
 </div>
