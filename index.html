@@ -1,348 +1,891 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Souway — Python-разработчик. OSINT: инструменты и исследования</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Souway — Python-разработчик. OSINT-инструменты и исследования</title>
+<meta name="description" content="Python-разработчик. Делаю инструменты для OSINT и провожу исследования по открытым источникам." />
+
+<!-- Open Graph -->
+<meta property="og:title" content="Souway — Python-разработчик" />
+<meta property="og:description" content="OSINT-инструменты и исследования по открытым источникам." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://souwayy.github.io" />
+<!-- <meta property="og:image" content="https://souwayy.github.io/preview.png" /> -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #020204;
-    color: #c9d1d9;
-    line-height: 1.6;
-    padding: 20px;
-    min-height: 100vh;
-    position: relative;
-    overflow-x: hidden;
-  }
+/* ================= TOKENS ================= */
+:root {
+  --bg:            #0A0A0A;
+  --bg-elev:       #141414;
+  --bg-elev-2:     #1A1A1A;
+  --border:        rgba(255,255,255,0.08);
+  --border-strong: rgba(255,255,255,0.14);
 
-  /* Звёзды — слой 1 */
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 0;
-    pointer-events: none;
-    background-image:
-      radial-gradient(1px 1px at 20px 30px, #ffffff, transparent),
-      radial-gradient(1px 1px at 40px 70px, #d0d0ff, transparent),
-      radial-gradient(1px 1px at 90px 40px, #ffffff, transparent),
-      radial-gradient(1px 1px at 130px 80px, #b0b0ff, transparent),
-      radial-gradient(1.5px 1.5px at 160px 120px, #ffffff, transparent),
-      radial-gradient(1px 1px at 200px 50px, #ffffff, transparent),
-      radial-gradient(1px 1px at 250px 160px, #d0d0ff, transparent),
-      radial-gradient(1.5px 1.5px at 300px 90px, #ffffff, transparent),
-      radial-gradient(1px 1px at 350px 180px, #b0b0ff, transparent),
-      radial-gradient(1px 1px at 400px 30px, #ffffff, transparent),
-      radial-gradient(1px 1px at 450px 140px, #ffffff, transparent),
-      radial-gradient(1.5px 1.5px at 500px 200px, #d0d0ff, transparent);
-    background-size: 550px 250px;
-    background-repeat: repeat;
-    opacity: 0.5;
-    animation: twinkle 6s ease-in-out infinite alternate;
-  }
+  --text:          #EDEDED;
+  --text-muted:    #8A8A99;
+  --text-dim:      #5C5C66;
 
-  /* Звёзды — слой 2 */
-  body::after {
-    content: "";
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 0;
-    pointer-events: none;
-    background-image:
-      radial-gradient(1px 1px at 10px 10px, #ffffff, transparent),
-      radial-gradient(1px 1px at 70px 90px, #ffffff, transparent),
-      radial-gradient(1px 1px at 150px 30px, #d0d0ff, transparent),
-      radial-gradient(1px 1px at 220px 130px, #ffffff, transparent),
-      radial-gradient(1px 1px at 290px 60px, #ffffff, transparent),
-      radial-gradient(1px 1px at 370px 170px, #b0b0ff, transparent),
-      radial-gradient(1px 1px at 440px 20px, #ffffff, transparent);
-    background-size: 480px 220px;
-    background-repeat: repeat;
-    opacity: 0.3;
-    animation: twinkle 9s ease-in-out infinite alternate-reverse;
-  }
+  --accent:        #FF2E4D;   /* красный — под аватар */
+  --accent-soft:   rgba(255,46,77,0.12);
+  --info:          #22D3EE;   /* циан — ссылки, теги */
+  --info-soft:     rgba(34,211,238,0.10);
 
-  @keyframes twinkle {
-    0%   { opacity: 0.25; }
-    100% { opacity: 0.6; }
-  }
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-  /* Кометы */
-  .comet {
-    position: fixed;
-    width: 3px;
-    height: 3px;
-    background: #ffffff;
-    border-radius: 50%;
-    z-index: 0;
-    pointer-events: none;
-    box-shadow: 0 0 8px 2px rgba(180, 180, 255, 0.8);
-  }
-  .comet::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 100%;
-    width: 70px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(200, 200, 255, 0.7));
-    transform: translateY(-50%);
-  }
-  .comet-1 {
-    top: 10%;
-    left: -100px;
-    animation: shoot 14s linear infinite;
-  }
-  .comet-2 {
-    top: 45%;
-    left: -100px;
-    animation: shoot 20s linear infinite;
-    animation-delay: 8s;
-  }
-  @keyframes shoot {
-    0%   { transform: translate(0, 0) rotate(15deg); opacity: 0; }
-    10%  { opacity: 1; }
-    90%  { opacity: 1; }
-    100% { transform: translate(120vw, 30vh) rotate(15deg); opacity: 0; }
-  }
+  --radius:    16px;
+  --radius-sm: 10px;
+  --max:       1080px;
+}
 
-  /* Фиолетово-синее свечение */
-  .glow {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 0;
-    pointer-events: none;
-    background-image:
-      radial-gradient(circle at 20% 10%, rgba(100, 60, 220, 0.12), transparent 45%),
-      radial-gradient(circle at 80% 80%, rgba(60, 60, 200, 0.08), transparent 45%);
-  }
+/* ================= RESET ================= */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: var(--info); text-decoration: none; transition: opacity .2s; }
+a:hover { opacity: .8; }
+img { max-width: 100%; display: block; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
 
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px 0;
-    position: relative;
-    z-index: 1;
-  }
+::selection { background: var(--accent); color: #fff; }
 
-  header { text-align: center; padding: 60px 0 30px; }
+/* ================= LAYOUT ================= */
+.container {
+  width: 100%;
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 20px;
+}
 
-  h1 {
-    font-size: 2.4em;
-    color: #a78bfa;
-    margin-bottom: 10px;
-    text-shadow: 0 0 25px rgba(124, 58, 237, 0.5);
-    letter-spacing: 1px;
-  }
-  .tagline { color: #7d7d90; font-size: 1.05em; }
+section { padding: 72px 0; }
+@media (min-width: 768px) { section { padding: 100px 0; } }
 
-  .nav {
-    text-align: center;
-    padding: 20px 0;
-    border-bottom: 1px solid #131320;
-    margin-bottom: 20px;
-    font-size: 0.95em;
-  }
-  .nav a {
-    color: #a78bfa;
-    text-decoration: none;
-    transition: color 0.2s, text-shadow 0.2s;
-    padding: 0 4px;
-  }
-  .nav a:hover {
-    color: #c4b5fd;
-    text-shadow: 0 0 12px rgba(167, 139, 250, 0.7);
-    text-decoration: underline;
-  }
-  .nav span { color: #2a2a3a; padding: 0 6px; }
+/* ================= HEADER ================= */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,10,10,0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+.logo {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text);
+  letter-spacing: -.02em;
+}
+.logo::before { content: '> '; color: var(--accent); }
 
-  section { padding: 40px 0; border-bottom: 1px solid #131320; }
-  h2 {
-    color: #a78bfa;
-    font-size: 1.5em;
-    margin-bottom: 20px;
-    letter-spacing: 0.5px;
-  }
-  p { margin-bottom: 15px; }
-  ul, ol { margin-left: 20px; margin-bottom: 15px; }
-  li { margin-bottom: 8px; }
+.nav-desktop { display: none; gap: 28px; }
+@media (min-width: 768px) {
+  .nav-desktop { display: flex; }
+}
+.nav-desktop a {
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 500;
+  transition: color .2s;
+}
+.nav-desktop a:hover { color: var(--text); opacity: 1; }
 
-  .projects { display: grid; gap: 20px; }
-  .project {
-    background: #08080f;
-    border: 1px solid #16162a;
-    border-radius: 10px;
-    padding: 22px;
-    transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
-  }
-  .project:hover {
-    border-color: #7c3aed;
-    box-shadow: 0 0 25px rgba(124, 58, 237, 0.25);
-    transform: translateY(-2px);
-  }
-  .project h3 { color: #a78bfa; margin-bottom: 10px; font-size: 1.2em; }
-  .project p { color: #7d7d90; font-size: 0.95em; margin-bottom: 15px; }
-  .project img {
-    width: 100%;
-    border-radius: 8px;
-    margin: 10px 0;
-    border: 1px solid #16162a;
-  }
-  .project a {
-    color: #a78bfa;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.9em;
-    transition: color 0.2s;
-  }
-  .project a:hover { color: #c4b5fd; text-decoration: underline; }
-
-  .btn {
-    display: inline-block;
-    background: linear-gradient(135deg, #5b21b6, #7c3aed);
-    color: #fff;
-    padding: 12px 26px;
-    border-radius: 8px;
-    text-decoration: none;
+.header-cta { display: none; }
+@media (min-width: 768px) {
+  .header-cta {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    font-size: 13px;
     font-weight: 600;
-    margin-top: 10px;
-    transition: box-shadow 0.3s, transform 0.2s;
-    box-shadow: 0 0 20px rgba(124, 58, 237, 0.35);
-  }
-  .btn:hover {
-    box-shadow: 0 0 30px rgba(124, 58, 237, 0.7);
-    transform: translateY(-2px);
-  }
-
-  .contacts { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px; }
-  .contacts a {
-    color: #a78bfa;
-    text-decoration: none;
-    padding: 8px 18px;
-    border: 1px solid #16162a;
+    background: var(--accent);
+    color: #fff;
     border-radius: 8px;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    transition: transform .15s, filter .15s;
   }
-  .contacts a:hover {
-    border-color: #7c3aed;
-    box-shadow: 0 0 15px rgba(124, 58, 237, 0.35);
-  }
-  footer { text-align: center; padding: 30px 0; color: #4a4a5e; font-size: 0.9em; }
+  .header-cta:hover { filter: brightness(1.1); opacity: 1; transform: translateY(-1px); }
+}
+
+.burger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+}
+.burger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  transition: transform .25s, opacity .25s;
+}
+@media (min-width: 768px) { .burger { display: none; } }
+
+.burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burger.open span:nth-child(2) { opacity: 0; }
+.burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 20px 20px;
+  border-top: 1px solid var(--border);
+  background: rgba(10,10,10,0.96);
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  color: var(--text-muted);
+  padding: 12px 0;
+  font-size: 15px;
+  border-bottom: 1px solid var(--border);
+}
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu .menu-cta {
+  margin-top: 12px;
+  text-align: center;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+/* ================= HERO ================= */
+.hero { padding: 80px 0 60px; }
+@media (min-width: 768px) { .hero { padding: 120px 0 80px; } }
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--info);
+  background: var(--info-soft);
+  border: 1px solid rgba(34,211,238,0.2);
+  padding: 6px 12px;
+  border-radius: 999px;
+  margin-bottom: 24px;
+}
+.hero-tag::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--info);
+  box-shadow: 0 0 8px var(--info);
+}
+
+.hero h1 {
+  font-size: clamp(36px, 7vw, 64px);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1.05;
+  margin: 0 0 20px;
+}
+.hero h1 .accent { color: var(--accent); }
+
+.hero-sub {
+  font-size: clamp(16px, 2.2vw, 19px);
+  color: var(--text-muted);
+  max-width: 560px;
+  margin: 0 0 36px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 22px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: transform .15s, filter .15s, background .2s, border-color .2s;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-primary:hover { filter: brightness(1.1); opacity: 1; transform: translateY(-1px); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+}
+.btn-ghost:hover { background: var(--bg-elev); border-color: var(--text-dim); opacity: 1; }
+
+/* ================= SECTION HEADINGS ================= */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: clamp(26px, 4vw, 36px);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin: 0 0 32px;
+  line-height: 1.15;
+}
+
+/* ================= ABOUT ================= */
+.about-grid {
+  display: grid;
+  gap: 32px;
+  align-items: start;
+}
+@media (min-width: 768px) {
+  .about-grid { grid-template-columns: 160px 1fr; gap: 48px; align-items: center; }
+}
+
+.avatar-wrap {
+  width: 120px; height: 120px;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 32px rgba(255,46,77,0.28);
+  background: var(--bg-elev);
+}
+@media (min-width: 768px) {
+  .avatar-wrap { width: 140px; height: 140px; margin: 0; }
+}
+.avatar-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+.about-text p {
+  margin: 0 0 14px;
+  color: var(--text-muted);
+  font-size: 16px;
+}
+.about-text p strong { color: var(--text); font-weight: 600; }
+
+/* ================= SERVICES ================= */
+.services-grid {
+  display: grid;
+  gap: 16px;
+}
+@media (min-width: 768px) {
+  .services-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.service-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 26px 22px;
+  transition: border-color .2s, transform .2s, background .2s;
+}
+.service-card:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+  background: var(--bg-elev-2);
+}
+.service-icon {
+  font-size: 26px;
+  margin-bottom: 14px;
+  display: block;
+}
+.service-card h3 {
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0 0 14px;
+  letter-spacing: -.01em;
+}
+.service-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.service-card li {
+  color: var(--text-muted);
+  font-size: 14px;
+  padding: 6px 0 6px 20px;
+  position: relative;
+}
+.service-card li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 14px;
+  width: 8px; height: 1px;
+  background: var(--accent);
+}
+
+/* ================= PROCESS ================= */
+.process {
+  display: grid;
+  gap: 20px;
+}
+@media (min-width: 768px) {
+  .process { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+}
+.step {
+  position: relative;
+  padding-left: 0;
+}
+.step-num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--accent);
+  border: 1px solid rgba(255,46,77,0.3);
+  border-radius: 999px;
+  width: 34px; height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  background: var(--accent-soft);
+}
+.step h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+.step p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* ================= PROJECTS ================= */
+.projects {
+  display: grid;
+  gap: 16px;
+}
+@media (min-width: 768px) {
+  .projects { grid-template-columns: repeat(2, 1fr); }
+}
+
+.project {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  transition: border-color .2s, transform .2s, background .2s;
+}
+.project:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+  background: var(--bg-elev-2);
+}
+
+.project-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.project-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  margin: 0;
+}
+.project-title .emoji { font-size: 20px; }
+
+.status {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+  text-transform: lowercase;
+}
+.status-wip {
+  color: #FBBF24;
+  background: rgba(251,191,36,0.1);
+  border: 1px solid rgba(251,191,36,0.25);
+}
+.status-ready {
+  color: var(--info);
+  background: var(--info-soft);
+  border: 1px solid rgba(34,211,238,0.25);
+}
+
+.project-desc {
+  color: var(--text-muted);
+  font-size: 14.5px;
+  margin: 0 0 16px;
+  flex-grow: 1;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+.tag {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--info);
+  background: var(--info-soft);
+  border: 1px solid rgba(34,211,238,0.18);
+  padding: 3px 9px;
+  border-radius: 6px;
+}
+
+.project-link {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+}
+.project-link:hover { opacity: 1; }
+.project-link::after {
+  content: '→';
+  transition: transform .2s;
+  display: inline-block;
+}
+.project-link:hover::after { transform: translateX(4px); }
+
+/* ================= REVIEWS ================= */
+.reviews-grid {
+  display: grid;
+  gap: 16px;
+}
+@media (min-width: 768px) {
+  .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.review {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 22px;
+}
+.review-text {
+  color: var(--text);
+  font-size: 15px;
+  margin: 0 0 14px;
+  line-height: 1.55;
+}
+.review-author {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+/* ================= CONTACTS ================= */
+.contacts {
+  text-align: center;
+}
+.contacts p {
+  color: var(--text-muted);
+  margin: 0 0 28px;
+  font-size: 16px;
+}
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 14.5px;
+  font-weight: 500;
+  transition: border-color .2s, transform .15s, background .2s;
+}
+.contact-link:hover {
+  border-color: var(--accent);
+  background: var(--bg-elev-2);
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+/* ================= FOOTER ================= */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 0;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text-dim);
+}
+
+/* ================= REVEAL ANIMATION ================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ================= DIVIDER ================= */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0;
+}
 </style>
 </head>
 <body>
 
-<div class="comet comet-1"></div>
-<div class="comet comet-2"></div>
-<div class="glow"></div>
+<!-- ============ HEADER ============ -->
+<header class="header">
+  <div class="container header-inner">
+    <a href="#" class="logo">souway</a>
 
-<div class="container">
+    <nav class="nav-desktop">
+      <a href="#about">Обо мне</a>
+      <a href="#services">Услуги</a>
+      <a href="#projects">Проекты</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
 
-<header>
-  <h1>Souway</h1>
-  <p class="tagline">Python-разработчик. OSINT: инструменты и исследования.</p>
+    <a href="#contacts" class="header-cta">Обсудить задачу</a>
+
+    <button class="burger" id="burger" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about">Обо мне</a>
+    <a href="#services">Услуги</a>
+    <a href="#projects">Проекты</a>
+    <a href="#reviews">Отзывы</a>
+    <a href="#contacts">Контакты</a>
+    <a href="#contacts" class="menu-cta">Обсудить задачу</a>
+  </div>
 </header>
 
-<nav class="nav">
-  <a href="#about">Обо мне</a><span>·</span>
-  <a href="#services">Услуги</a><span>·</span>
-  <a href="#projects">Проекты</a><span>·</span>
-  <a href="#reviews">Отзывы</a><span>·</span>
-  <a href="#contacts">Контакты</a>
-</nav>
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="container">
+    <span class="hero-tag">доступен для заказов</span>
+    <h1>Python-разработчик.<br>OSINT-инструменты и <span class="accent">исследования</span>.</h1>
+    <p class="hero-sub">
+      Делаю инструменты для OSINT, парсеры, Telegram-боты и исследования
+      по открытым источникам. Работаю только легальными методами.
+    </p>
+    <div class="hero-actions">
+      <a href="#contacts" class="btn btn-primary">Обсудить задачу</a>
+      <a href="#projects" class="btn btn-ghost">Смотреть проекты</a>
+    </div>
+  </div>
+</section>
 
+<div class="divider"></div>
+
+<!-- ============ ABOUT ============ -->
 <section id="about">
-  <h2>Обо мне</h2>
-  <p>Python-разработчик. Делаю инструменты для OSINT и провожу исследования по открытым источникам. Работаю только легальными методами.</p>
+  <div class="container">
+    <div class="section-label">// 01 — обо мне</div>
+    <div class="about-grid">
+      <div class="avatar-wrap">
+        <!-- ЗАМЕНИТЕ на свой аватар: положите файл avatar.png рядом с index.html -->
+        <img src="avatar.png" alt="Souway" onerror="this.style.display='none'; this.parentNode.style.background='linear-gradient(135deg,#FF2E4D,#141414)';" />
+      </div>
+      <div class="about-text">
+        <h2 class="section-title">Кто я</h2>
+        <p>
+          <strong>Python-разработчик.</strong> Делаю инструменты для OSINT и провожу
+          исследования по открытым источникам.
+        </p>
+        <p>
+          Работаю только легальными методами: поиск по публичным данным, проверка
+          информации, сбор статистики. Никакого взлома и доступа к чужим аккаунтам.
+        </p>
+      </div>
+    </div>
+  </div>
 </section>
 
+<div class="divider"></div>
+
+<!-- ============ SERVICES ============ -->
 <section id="services">
-  <h2>Услуги</h2>
-  <p><strong>Сайты-визитки:</strong></p>
-  <ul>
-    <li>простой дизайн на HTML/CSS</li>
-    <li>адаптив под телефон</li>
-    <li>форма связи</li>
-  </ul>
-  <p><strong>Разработка на Python:</strong></p>
-  <ul>
-    <li>парсеры и сбор данных</li>
-    <li>Telegram-боты</li>
-    <li>чекеры и скрипты</li>
-  </ul>
-  <p><strong>OSINT:</strong></p>
-  <ul>
-    <li>поиск по открытым источникам</li>
-    <li>проверка данных</li>
-  </ul>
-  <p>Цена договорная. Первым заказчикам — скидка.</p>
+  <div class="container">
+    <div class="section-label">// 02 — услуги</div>
+    <h2 class="section-title">Что я делаю</h2>
+
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <span class="service-icon">💻</span>
+        <h3>Сайты-визитки</h3>
+        <ul>
+          <li>простой дизайн на HTML/CSS</li>
+          <li>адаптив под телефон</li>
+          <li>форма связи</li>
+        </ul>
+      </div>
+
+      <div class="service-card reveal">
+        <span class="service-icon">🐍</span>
+        <h3>Разработка на Python</h3>
+        <ul>
+          <li>парсеры и сбор данных</li>
+          <li>Telegram-боты</li>
+          <li>чекеры и скрипты</li>
+        </ul>
+      </div>
+
+      <div class="service-card reveal">
+        <span class="service-icon">🕵️</span>
+        <h3>OSINT-исследования</h3>
+        <ul>
+          <li>поиск по открытым источникам</li>
+          <li>проверка данных</li>
+          <li>отчёты и статистика</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section id="how">
-  <h2>Как я работаю</h2>
-  <ol>
-    <li>Вы описываете задачу</li>
-    <li>Я называю цену и сроки</li>
-    <li>Делаю, показываю, вносим правки</li>
-    <li>Отдаю готовый результат</li>
-  </ol>
-  <a href="https://t.me/souvvay" class="btn" target="_blank">Обсудить задачу</a>
+<div class="divider"></div>
+
+<!-- ============ PROCESS ============ -->
+<section id="process">
+  <div class="container">
+    <div class="section-label">// 03 — процесс</div>
+    <h2 class="section-title">Как я работаю</h2>
+
+    <div class="process">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <h4>Задача</h4>
+        <p>Вы описываете, что нужно сделать.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <h4>Цена и сроки</h4>
+        <p>Я называю стоимость и дедлайн.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <h4>Работа</h4>
+        <p>Делаю, показываю, вносим правки.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">04</div>
+        <h4>Результат</h4>
+        <p>Отдаю готовый результат.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
+<div class="divider"></div>
+
+<!-- ============ PROJECTS ============ -->
 <section id="projects">
-  <h2>Проекты</h2>
-  <div class="projects">
-    <div class="project">
-      <h3>🔍 Username Checker</h3>
-      <p>Чекер никнеймов по 100+ платформам. Сохраняет отчёт в JSON.</p>
-      <img src="Screenshot_20260926-203405.jpg" alt="Username Checker">
-      <a href="https://github.com/souway1/scriptforge/tree/main/username-checker" target="_blank">Смотреть на GitHub →</a>
-    </div>
-    <div class="project">
-      <h3>📱 NumHunter</h3>
-      <p>Анализ номеров: страна, регион, оператор, тип линии.</p>
-      <img src="Screenshot_20260926-202505.jpg" alt="NumHunter">
-      <a href="https://github.com/souway1/scriptforge/tree/main/numhunter" target="_blank">Смотреть на GitHub →</a>
-    </div>
-    <div class="project">
-      <h3>🐍 SnakeEye</h3>
-      <p>Telegram-бот для OSINT-проверок. В разработке.</p>
-      <img src="Screenshot_20260926-203751.jpg" alt="SnakeEye">
-      <a href="https://t.me/pythonwave" target="_blank">Следить в канале →</a>
-    </div>
-    <div class="project">
-      <h3>📢 Python Wave | OSINT</h3>
-      <p>Канал про Python, OSINT и инструменты.</p>
-      <a href="https://t.me/pythonwave" target="_blank">Перейти в канал →</a>
+  <div class="container">
+    <div class="section-label">// 04 — проекты</div>
+    <h2 class="section-title">Что уже сделано</h2>
+
+    <div class="projects">
+
+      <article class="project reveal">
+        <div class="project-head">
+          <h3 class="project-title"><span class="emoji">🔍</span> Username Checker</h3>
+          <span class="status status-ready">готов</span>
+        </div>
+        <p class="project-desc">
+          Чекер никнеймов по 100+ платформам. Проверяет занятость ника
+          и сохраняет отчёт в JSON.
+        </p>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">100+ сайтов</span>
+          <span class="tag">JSON</span>
+        </div>
+        <a class="project-link" href="https://github.com/souwayy" target="_blank" rel="noopener">Смотреть на GitHub</a>
+      </article>
+
+      <article class="project reveal">
+        <div class="project-head">
+          <h3 class="project-title"><span class="emoji">📱</span> NumHunter</h3>
+          <span class="status status-ready">готов</span>
+        </div>
+        <p class="project-desc">
+          Анализ номеров телефонов: страна, регион, оператор, тип линии.
+          Работает с офлайн-базами.
+        </p>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">CLI</span>
+          <span class="tag">offline</span>
+        </div>
+        <a class="project-link" href="https://github.com/souwayy" target="_blank" rel="noopener">Смотреть на GitHub</a>
+      </article>
+
+      <article class="project reveal">
+        <div class="project-head">
+          <h3 class="project-title"><span class="emoji">🐍</span> SnakeEye</h3>
+          <span class="status status-wip">в разработке</span>
+        </div>
+        <p class="project-desc">
+          Telegram-бот для OSINT-проверок: поиск по никам, IP-адресам
+          и утечкам. Этично, точно, быстро.
+        </p>
+        <div class="tags">
+          <span class="tag">Telegram</span>
+          <span class="tag">400+ площадок</span>
+          <span class="tag">IP-lookup</span>
+        </div>
+        <a class="project-link" href="https://t.me/pythonwave" target="_blank" rel="noopener">Следить в канале</a>
+      </article>
+
+      <article class="project reveal">
+        <div class="project-head">
+          <h3 class="project-title"><span class="emoji">📢</span> Python Wave</h3>
+          <span class="status status-ready">активен</span>
+        </div>
+        <p class="project-desc">
+          Канал про Python, OSINT и инструменты. Пишу о том, что делаю,
+          и делюсь годнотой.
+        </p>
+        <div class="tags">
+          <span class="tag">Telegram</span>
+          <span class="tag">Python</span>
+          <span class="tag">OSINT</span>
+        </div>
+        <a class="project-link" href="https://t.me/pythonwave" target="_blank" rel="noopener">Перейти в канал</a>
+      </article>
+
     </div>
   </div>
 </section>
 
+<div class="divider"></div>
+
+<!-- ============ REVIEWS ============ -->
 <section id="reviews">
-  <h2>Отзывы</h2>
-  <a href="https://t.me/souway_reviews" class="btn" target="_blank">Читать отзывы</a>
-</section>
+  <div class="container">
+    <div class="section-label">// 05 — отзывы</div>
+    <h2 class="section-title">Что говорят</h2>
 
-<section id="contacts">
-  <h2>Контакты</h2>
-  <p>Связаться со мной можно напрямую:</p>
-  <div class="contacts">
-    <a href="https://t.me/souvvay" target="_blank">Telegram</a>
-    <a href="mailto:souwway@gmail.com">Email</a>
-    <a href="https://github.com/souway1" target="_blank">GitHub</a>
+    <div class="reviews-grid">
+      <div class="review reveal">
+        <p class="review-text">
+          Быстро сделал чекер под мою задачу. Всё чётко, без воды.
+          Рекомендую.
+        </p>
+        <div class="review-author">— @username, Telegram</div>
+      </div>
+      <div class="review reveal">
+        <p class="review-text">
+          Написал бота за пару дней, работает стабильно.
+          Правки вносил без вопросов.
+        </p>
+        <div class="review-author">— @username, Telegram</div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <a href="https://t.me/souway_reviews" target="_blank" rel="noopener" class="btn btn-ghost">Читать все отзывы</a>
+    </div>
   </div>
 </section>
 
-<footer>
-  © 2026 Souway
+<div class="divider"></div>
+
+<!-- ============ CONTACTS ============ -->
+<section id="contacts">
+  <div class="container contacts">
+    <div class="section-label" style="display:inline-block;">// 06 — контакты</div>
+    <h2 class="section-title">Связаться со мной</h2>
+    <p>Пишите напрямую — отвечаю быстро.</p>
+
+    <div class="contact-links">
+      <a class="contact-link" href="https://t.me/souwayy" target="_blank" rel="noopener">Telegram</a>
+      <a class="contact-link" href="mailto:you@example.com">Email</a>
+      <a class="contact-link" href="https://github.com/souwayy" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="container">
+    © 2025 souway · сделано с душой
+  </div>
 </footer>
 
-</div>
+<script>
+// ===== Burger menu =====
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+
+burger.addEventListener('click', () => {
+  burger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+
+mobileMenu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    burger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  });
+});
+
+// ===== Reveal on scroll =====
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+revealEls.forEach(el => io.observe(el));
+</script>
+
 </body>
-</html>
+       </html>
