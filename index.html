@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Souway — Python-разработчик. OSINT-инструменты и исследования</title>
-<meta name="description" content="Python-разработчик. Делаю инструменты для OSINT и провожу исследования по открытым источникам." />
+<title>Souway — OSINT-исследования и Python-инструменты</title>
+<meta name="description" content="Исследования по открытым источникам, парсеры и боты на Python. Обучение OSINT." />
 
-<meta property="og:title" content="Souway — Python-разработчик" />
-<meta property="og:description" content="OSINT-инструменты и исследования по открытым источникам." />
+<meta property="og:title" content="Souway — OSINT-исследования" />
+<meta property="og:description" content="Поиск по открытым источникам, Python-инструменты, обучение OSINT." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://souwayy.github.io" />
 
@@ -239,9 +239,9 @@ section { padding: 72px 0; }
 @media (min-width: 768px) { .avatar-wrap { width: 140px; height: 140px; margin: 0; } }
 
 .avatar-snake {
-  width: 62%;
-  height: 62%;
-  filter: drop-shadow(0 0 8px rgba(255,46,77,0.6));
+  width: 68%;
+  height: 68%;
+  filter: drop-shadow(0 0 6px rgba(255,46,77,0.55));
 }
 
 .about-text p { margin: 0 0 14px; color: var(--text-muted); font-size: 16px; }
@@ -249,7 +249,7 @@ section { padding: 72px 0; }
 
 /* ===== SERVICES ===== */
 .services-grid { display: grid; gap: 16px; }
-@media (min-width: 768px) { .services-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 768px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
 
 .service-card {
   background: var(--bg-elev);
@@ -411,10 +411,10 @@ section { padding: 72px 0; }
 <section class="hero">
   <div class="container">
     <span class="hero-tag">доступен для заказов</span>
-    <h1>Python-разработчик.<br>OSINT-инструменты и <span class="accent">исследования</span>.</h1>
+    <h1>OSINT-исследования.<br>Python-инструменты и <span class="accent">автоматизация</span>.</h1>
     <p class="hero-sub">
-      Делаю инструменты для OSINT, парсеры, Telegram-боты и исследования
-      по открытым источникам. Работаю только легальными методами.
+      Провожу исследования по открытым источникам, пишу парсеры и ботов
+      на Python. Обучаю OSINT с нуля.
     </p>
     <div class="hero-actions">
       <a href="#contacts" class="btn btn-primary">Обсудить задачу</a>
@@ -432,25 +432,39 @@ section { padding: 72px 0; }
     <div class="about-grid">
       <div class="avatar-wrap">
         <svg class="avatar-snake" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M 30 20 C 30 12, 42 10, 50 14 C 60 19, 68 30, 62 42 C 57 52, 42 54, 38 64 C 34 74, 42 86, 56 86 C 68 86, 74 78, 74 70"
-                fill="none" stroke="#FF2E4D" stroke-width="6"
-                stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="74" cy="70" r="6" fill="#FF2E4D"/>
-          <circle cx="75.5" cy="68.5" r="1.6" fill="#22D3EE"/>
-          <path d="M 80 72 L 86 76 M 86 76 L 88 74 M 86 76 L 88 78"
-                stroke="#FF2E4D" stroke-width="1.8"
-                stroke-linecap="round" fill="none"/>
+          <!-- Тело: S-волна вниз от головы -->
+          <path d="M 50 26
+                   C 63 36, 63 52, 50 62
+                   C 37 72, 37 86, 50 93"
+                fill="none"
+                stroke="#FF2E4D"
+                stroke-width="5"
+                stroke-linecap="round"
+                stroke-linejoin="round"/>
+          <!-- Голова сверху -->
+          <ellipse cx="50" cy="17" rx="7" ry="7.5" fill="#FF2E4D"/>
+          <!-- Глаза -->
+          <circle cx="47.4" cy="15.4" r="1.4" fill="#22D3EE"/>
+          <circle cx="52.6" cy="15.4" r="1.4" fill="#22D3EE"/>
+          <!-- Раздвоенный язык вверх -->
+          <path d="M 50 9.5 L 50 4
+                   M 50 4 L 46.8 1.4
+                   M 50 4 L 53.2 1.4"
+                stroke="#FF2E4D"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                fill="none"/>
         </svg>
       </div>
       <div class="about-text">
         <h2 class="section-title">Кто я</h2>
         <p>
-          <strong>Python-разработчик.</strong> Делаю инструменты для OSINT и провожу
-          исследования по открытым источникам.
+          <strong>Занимаюсь OSINT 2 года.</strong> Провожу исследования по открытым
+          источникам, проверяю данные, делюсь опытом с другими.
         </p>
         <p>
-          Работаю только легальными методами: поиск по публичным данным, проверка
-          информации, сбор статистики. Никакого взлома и доступа к чужим аккаунтам.
+          Python использую как инструмент: пишу парсеры, ботов, чекеры.
+          Помогаю освоить OSINT с нуля — от методик до практики на реальных задачах.
         </p>
       </div>
     </div>
@@ -467,12 +481,24 @@ section { padding: 72px 0; }
 
     <div class="services-grid">
       <div class="service-card reveal">
-        <span class="service-icon">💻</span>
-        <h3>Сайты-визитки</h3>
+        <span class="service-icon">🕵️</span>
+        <h3>OSINT-исследования</h3>
         <ul>
-          <li>простой дизайн на HTML/CSS</li>
-          <li>адаптив под телефон</li>
-          <li>форма связи</li>
+          <li>поиск по открытым источникам</li>
+          <li>проверка данных и контактов</li>
+          <li>сбор информации о компании или человеке</li>
+          <li>отчёты и статистика</li>
+        </ul>
+      </div>
+
+      <div class="service-card reveal">
+        <span class="service-icon">🎓</span>
+        <h3>Обучение OSINT</h3>
+        <ul>
+          <li>опыт в OSINT 2 года</li>
+          <li>с нуля до практики</li>
+          <li>разбор реальных задач</li>
+          <li>инструменты и методики</li>
         </ul>
       </div>
 
@@ -483,16 +509,18 @@ section { padding: 72px 0; }
           <li>парсеры и сбор данных</li>
           <li>Telegram-боты</li>
           <li>чекеры и скрипты</li>
+          <li>автоматизация задач</li>
         </ul>
       </div>
 
       <div class="service-card reveal">
-        <span class="service-icon">🕵️</span>
-        <h3>OSINT-исследования</h3>
+        <span class="service-icon">💻</span>
+        <h3>Сайты-визитки</h3>
         <ul>
-          <li>поиск по открытым источникам</li>
-          <li>проверка данных</li>
-          <li>отчёты и статистика</li>
+          <li>чистый код на HTML/CSS</li>
+          <li>адаптив под телефон и ПК</li>
+          <li>быстрая загрузка</li>
+          <li>форма связи или Telegram-виджет</li>
         </ul>
       </div>
     </div>
